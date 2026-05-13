@@ -22,7 +22,9 @@ export default function LoginPage() {
       setLoading(false)
     } else {
       console.log("Attempted loginnnnnnnn")
-      router.push('/dashboard')
+      window.location.href = '/dashboard'
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log("Session:", session)
     }
   }
 
