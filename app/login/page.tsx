@@ -21,6 +21,7 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else {
+      console.log("Attempted loginnnnnnnn")
       router.push('/dashboard')
     }
   }
