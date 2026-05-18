@@ -1,5 +1,4 @@
 'use client'
-'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -77,6 +76,11 @@ export default function DashboardPage() {
     getUser()
   }, [])
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/login'
+  }
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'sans-serif' }}>
 
@@ -97,17 +101,29 @@ export default function DashboardPage() {
             <div style={{ fontSize: '12px', color: '#6b7280' }}>Student portal</div>
           </div>
         </div>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '6px 12px', borderRadius: '999px',
-          border: '0.5px solid #e5e7eb', background: '#f9fafb'
-        }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '26px', height: '26px', borderRadius: '50%', background: '#E1F5EE',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '11px', fontWeight: '500', color: '#0F6E56'
-          }}>{email.slice(0, 2).toUpperCase()}</div>
-          <span style={{ fontSize: '13px' }}>{email}</span>
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '6px 12px', borderRadius: '999px',
+            border: '0.5px solid #e5e7eb', background: '#f9fafb'
+          }}>
+            <div style={{
+              width: '26px', height: '26px', borderRadius: '50%', background: '#E1F5EE',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '11px', fontWeight: '500', color: '#0F6E56'
+            }}>{email.slice(0, 2).toUpperCase()}</div>
+            <span style={{ fontSize: '13px' }}>{email}</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            style={{
+              fontSize: '13px', color: '#6b7280', background: 'none',
+              border: '0.5px solid #e5e7eb', borderRadius: '8px',
+              padding: '6px 12px', cursor: 'pointer'
+            }}
+          >
+            Sign out
+          </button>
         </div>
       </div>
 
