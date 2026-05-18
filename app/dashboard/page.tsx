@@ -1,6 +1,9 @@
 'use client'
+'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 const cards = [
   {
@@ -56,6 +59,7 @@ const cards = [
 
 export default function DashboardPage() {
   const router = useRouter()
+  const [email, setEmail] = useState('')
 
   const handleCard = (href: string) => {
     if (href.startsWith('http')) {
@@ -64,6 +68,14 @@ export default function DashboardPage() {
       router.push(href)
     }
   }
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) setEmail(user.email ?? '')
+    }
+    getUser()
+  }, [])
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'sans-serif' }}>
@@ -81,7 +93,7 @@ export default function DashboardPage() {
             color: '#fff', fontSize: '14px'
           }}>ع</div>
           <div>
-            <div style={{ fontSize: '15px', fontWeight: '500' }}>Arabic with [Your Name]</div>
+            <div style={{ fontSize: '15px', fontWeight: '500' }}>Arabic with Ismail</div>
             <div style={{ fontSize: '12px', color: '#6b7280' }}>Student portal</div>
           </div>
         </div>
@@ -94,15 +106,15 @@ export default function DashboardPage() {
             width: '26px', height: '26px', borderRadius: '50%', background: '#E1F5EE',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '11px', fontWeight: '500', color: '#0F6E56'
-          }}>SA</div>
-          <span style={{ fontSize: '13px' }}>Sara A.</span>
+          }}>{email.slice(0, 2).toUpperCase()}</div>
+          <span style={{ fontSize: '13px' }}>{email}</span>
         </div>
       </div>
 
       {/* Hero */}
       <div style={{ padding: '32px 28px 8px' }}>
         <h1 style={{ fontSize: '22px', fontWeight: '500', marginBottom: '4px' }}>
-          Ahlan, <span style={{ color: '#1D9E75' }}>Sara</span> — مرحباً
+          Ahlan, <span style={{ color: '#1D9E75' }}>{email.split('@')[0]}</span> — مرحباً
         </h1>
         <p style={{ fontSize: '14px', color: '#6b7280' }}>Here's everything you need, in one place.</p>
       </div>
